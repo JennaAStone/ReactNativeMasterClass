@@ -1,0 +1,161 @@
+
+import React, { Component } from 'react';
+import {
+  StyleSheet, 
+  Text,
+  View,
+  Button,
+  TextInput,
+  Alert
+} from 'react-native';
+import { StackNavigator } from 'react-navigation';
+
+class HomeScreen extends Component {
+  static navigationOptions = {
+    title: 'Home',
+  };
+
+  render() {
+
+    const { params } = this.props.navigation.state;
+    const userN = params ? params.user : null;
+    const pass = params ? params.password : null;
+
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text>Home Screen</Text>
+        <Text>User Name: {JSON.stringify(userN)}</Text>
+        <Text>Password: {JSON.stringify(pass)}</Text>
+        <Button
+          title="Go to Details"
+          onPress={() => {
+            this.props.navigation.navigate('Details', {
+              itemId: 86,
+              otherParam: 'anything goes here' ,
+            });
+          }}
+        />
+      </View>
+    );
+  }
+}
+
+class LoginScreen extends Component {
+  static navigationOptions = {
+    title: 'Login',
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: '',
+      password: '',
+    }
+  };
+
+  onChangeText = (key, value) => {
+    this.setState({
+        [key]: value
+    })
+}
+
+  render() {
+    return (
+      <View style={styles.mainView}>
+        <View style={styles.topSpacer} />
+          <Text>User Name:</Text>
+          <TextInput
+            style={{height: 40, width:300, borderColor: 'gray', borderBottomWidth: 1}}
+            placeholder="Enter User Name"
+            value={this.state.username}
+            onChangeText = {(value) => this.setState({username: value})}
+          />
+          <Text style={{marginTop:20}}>Password:</Text>
+          <TextInput 
+            style={{height: 40, width:300, borderColor: 'gray', borderBottomWidth: 1}}
+            placeholder="Enter Password"
+            value={this.state.password}
+            onChangeText = {(value) => this.setState({password: value})}
+          />
+          <View style={styles.buttonSpacer} />
+          <Button
+              title="Login"
+              onPress={() => {
+                this.props.navigation.navigate('Home', {
+                  user: this.state.username,
+                  password: this.state.password,
+                });
+              }}
+        />
+      </View>
+    );
+  }
+}
+
+
+class DetailsScreen extends Component {
+  static navigationOptions = {
+    title: 'Details',
+  };
+
+  render() {
+    const { params } = this.props.navigation.state;
+    const itemId = params ? params.itemId : null;
+    const otherParam = params ? params.otherParam: null;
+
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text>Details Screen</Text>
+        <Text>itemId: {JSON.stringify(itemId)}</Text>
+        <Text>otherParam: {JSON.stringify(otherParam)}</Text>
+        <Button
+          title="Go to Details...again"
+          onPress={() => this.props.navigation.navigate('Details')}
+        />
+        <Button
+          title="Go back"
+          onPress={() => this.props.navigation.goBack()}
+        />
+      </View>
+    );
+  }
+}
+
+const RootStack = StackNavigator (
+  {
+    Home: {
+      screen: HomeScreen,
+    },
+    Login: {
+      screen: LoginScreen,
+    },
+    Details: {
+      screen: DetailsScreen,
+    },
+  }, 
+  {
+    initialRouteName: 'Login',
+  }
+);
+
+const styles = StyleSheet.create({
+  mainView: {
+    flex: 1,
+    flexDirection: "column",
+    backgroundColor: "#BBDEFB"
+  },
+
+  topSpacer: {
+    flex: 0.3
+  },
+
+  buttonSpacer: {
+    flex: 0.2
+  }
+});
+
+export default class App extends React.Component{
+  render() {
+    return <RootStack />;
+  }
+}
