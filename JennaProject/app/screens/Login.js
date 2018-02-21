@@ -15,6 +15,19 @@ class HomeScreen extends Component {
     title: 'Home',
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      firstname: ''
+    }
+  };
+
+  onChangeText = (key, value) => {
+    this.setState({
+        [key]: value
+    })
+  }
+
   render() {
 
     const { params } = this.props.navigation.state;
@@ -26,12 +39,20 @@ class HomeScreen extends Component {
         <Text>Home Screen</Text>
         <Text>User Name: {JSON.stringify(userN)}</Text>
         <Text>Password: {JSON.stringify(pass)}</Text>
+        <TextInput
+          style={{height: 40, width:300, borderColor: 'gray', borderBottomWidth: 1}}
+          placeholder="Enter your First Name"
+          value={this.state.firstname}
+          onChangeText = {(value) => this.setState({firstname: value})}
+        >
+        </TextInput>
         <Button
           title="Go to Details"
           onPress={() => {
             this.props.navigation.navigate('Details', {
               itemId: 86,
               otherParam: 'anything goes here' ,
+              firstname: this.state.firstname,
             });
           }}
         />
@@ -57,7 +78,7 @@ class LoginScreen extends Component {
     this.setState({
         [key]: value
     })
-}
+  }
 
   render() {
     return (
@@ -102,12 +123,14 @@ class DetailsScreen extends Component {
     const { params } = this.props.navigation.state;
     const itemId = params ? params.itemId : null;
     const otherParam = params ? params.otherParam: null;
+    const firstName = params ? params.firstname: null;
 
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>Details Screen</Text>
         <Text>itemId: {JSON.stringify(itemId)}</Text>
         <Text>otherParam: {JSON.stringify(otherParam)}</Text>
+        <Text>First Name: {JSON.stringify(firstName)}</Text>
         <Button
           title="Go to Details...again"
           onPress={() => this.props.navigation.navigate('Details')}
@@ -115,6 +138,10 @@ class DetailsScreen extends Component {
         <Button
           title="Go back"
           onPress={() => this.props.navigation.goBack()}
+        />
+        <Button
+          title="Change First Name"
+          onPress={() => this.setState({firstName: "Glenna"})}
         />
       </View>
     );
