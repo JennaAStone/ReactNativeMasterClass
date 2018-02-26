@@ -6,7 +6,8 @@ import {
   View,
   Button,
   TextInput,
-  Alert
+  Alert,
+  FlatList
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
@@ -43,7 +44,7 @@ class HomeScreen extends Component {
           style={{height: 40, width:300, borderColor: 'gray', borderBottomWidth: 1}}
           placeholder="Enter your First Name"
           value={this.state.firstname}
-          onChangeText = {(value) => this.setState({firstname: value})}
+          onChangeText = {(value) => this.setState({firstname: value})}          
         >
         </TextInput>
         <Button
@@ -119,6 +120,10 @@ class DetailsScreen extends Component {
     title: 'Details',
   };
 
+  updateFirstName() {
+    //change FirstName
+  }
+
   render() {
     const { params } = this.props.navigation.state;
     const itemId = params ? params.itemId : null;
@@ -130,7 +135,7 @@ class DetailsScreen extends Component {
         <Text>Details Screen</Text>
         <Text>itemId: {JSON.stringify(itemId)}</Text>
         <Text>otherParam: {JSON.stringify(otherParam)}</Text>
-        <Text>First Name: {JSON.stringify(firstName)}</Text>
+        <Text id="firstNameText">First Name: {JSON.stringify(firstName)}</Text>
         <Button
           title="Go to Details...again"
           onPress={() => this.props.navigation.navigate('Details')}
@@ -141,12 +146,18 @@ class DetailsScreen extends Component {
         />
         <Button
           title="Change First Name"
-          onPress={() => this.setState({firstName: "Glenna"})}
+          onPress={this.updateFirstName}
+        />
+        <FlatList
+          data={[{key: 'a'}, {key: 'b'}]}
+          renderItem={({item}) => <Text>{item.key}</Text>}
         />
       </View>
     );
   }
+
 }
+
 
 const RootStack = StackNavigator (
   {
