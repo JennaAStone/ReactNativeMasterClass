@@ -9,6 +9,11 @@
   "dependencies": {
     "react": "16.2.0",
     "react-native": "0.53.0",
+    "react-native-camera": "git+https://git@github.com/react-native-community/react-native-camera",
+    "react-native-image-picker": "^0.26.7",
+    "react-native-push-notification": "^3.0.2",
+    "react-native-sqlite-storage": "^3.3.4",
+    "react-native-swiper": "^1.5.13",
     "react-navigation": "^1.0.3"
   },
   "devDependencies": {

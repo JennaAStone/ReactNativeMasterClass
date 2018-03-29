@@ -17,6 +17,10 @@ export default class ListExampleComponent extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            peopleList: [],
+            listRefreshing: false
+        };
     }
 
     state = {
